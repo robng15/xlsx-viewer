@@ -337,13 +337,167 @@ html, body {
   z-index: 3;
   background: var(--col-header);
   border: 1px solid var(--grid-line);
-  padding: 3px 6px;
+  padding: 3px 4px 3px 6px;
   text-align: center;
   font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
   user-select: none;
+}
+
+/* Column header inner layout */
+.sheet-table .col-header {
+  display: table-cell; /* override if needed */
+}
+
+.col-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ─── Filter Arrow ───────────────────────────────────────────────────────── */
+.filter-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 14px;
+  margin-left: 3px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: var(--text-muted);
+  font-size: 10px;
+  cursor: pointer;
+  vertical-align: middle;
+  line-height: 1;
+  transition: background .12s, border-color .12s, color .12s;
+}
+
+.filter-arrow:hover {
+  background: var(--border);
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.filter-arrow.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+/* ─── Filter Dropdown ────────────────────────────────────────────────────── */
+.filter-dropdown {
+  position: absolute;
+  z-index: 100;
+  min-width: 200px;
+  max-width: 300px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-search {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 12px;
+  outline: none;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color .15s;
+}
+
+.filter-search:focus { border-color: var(--primary); }
+
+.filter-hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2px 0;
+}
+
+.filter-list {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  scrollbar-width: thin;
+}
+
+.filter-list::-webkit-scrollbar { width: 5px; }
+.filter-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background .1s;
+}
+
+.filter-option:hover { background: var(--primary-light); }
+
+.filter-option input[type=checkbox] {
+  flex-shrink: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.filter-all {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.filter-btn-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.filter-btn {
+  flex: 1;
+  padding: 5px 0;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: background .15s, border-color .15s;
+}
+
+.filter-btn-apply {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.filter-btn-apply:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+
+.filter-btn-clear {
+  background: var(--surface);
+  color: var(--text-muted);
+}
+
+.filter-btn-clear:hover {
+  background: var(--bg);
+  border-color: var(--border-hover);
+  color: var(--text);
 }
 
 .sheet-table .corner-cell {

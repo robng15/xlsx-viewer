@@ -214,7 +214,7 @@ export function renderWorksheet(ws) {
   parts.push('<thead><tr>');
   parts.push('<th class="corner-cell" scope="col"></th>');
   for (let c = range.s.c; c <= range.e.c; c++) {
-    parts.push(`<th class="col-header" scope="col">${XLSX.utils.encode_col(c)}</th>`);
+    parts.push(`<th class="col-header" scope="col" data-c="${c}"><span class="col-label">${XLSX.utils.encode_col(c)}</span><button class="filter-arrow" data-c="${c}" title="Filter">&#9661;</button></th>`);
   }
   parts.push('</tr></thead>');
 
@@ -223,7 +223,7 @@ export function renderWorksheet(ws) {
   for (let r = range.s.r; r <= range.e.r; r++) {
     const rowInfo = rows[r];
     const rowStyle = rowInfo?.hpx ? ` style="height:${rowInfo.hpx}px"` : '';
-    parts.push(`<tr${rowStyle}>`);
+    parts.push(`<tr data-r="${r}"${rowStyle}>`);
 
     // Row number header
     parts.push(`<td class="row-header" scope="row">${r + 1}</td>`);
@@ -237,7 +237,7 @@ export function renderWorksheet(ws) {
       const merge  = mergeSpan.get(key);
 
       // Build td attributes
-      let attrs = ' class="data-cell"';
+      let attrs = ` class="data-cell" data-c="${c}"`;
       if (merge) {
         if (merge.rowspan > 1) attrs += ` rowspan="${merge.rowspan}"`;
         if (merge.colspan > 1) attrs += ` colspan="${merge.colspan}"`;

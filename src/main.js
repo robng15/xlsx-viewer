@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 import { renderWorksheet } from './renderer.js';
+import { setupFilters, teardownFilters } from './filter.js';
 
 // ─── DOM References ──────────────────────────────────────────────────────────
 const dropZone        = document.getElementById('drop-zone');
@@ -155,9 +156,11 @@ function renderSheet(name) {
   requestAnimationFrame(() => {
     setTimeout(() => {
       try {
+        teardownFilters();
         const ws   = workbook.Sheets[name];
         const html = renderWorksheet(ws);
         tableWrapper.innerHTML = html;
+        setupFilters(tableWrapper);
       } catch (err) {
         console.error('Render error:', err);
         tableWrapper.innerHTML = '<p class="empty-sheet">Could not render this sheet.</p>';
@@ -171,6 +174,7 @@ function renderSheet(name) {
 // ─── Reset ────────────────────────────────────────────────────────────────────
 
 function resetViewer() {
+  teardownFilters();
   workbook    = null;
   activeSheet = null;
   tableWrapper.innerHTML  = '';
