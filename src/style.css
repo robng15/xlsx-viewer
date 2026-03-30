@@ -1,0 +1,418 @@
+/* ─── Reset & Custom Properties ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:             #EEF2F7;
+  --surface:        #FFFFFF;
+  --border:         #DDE3EC;
+  --border-hover:   #94A3B8;
+  --primary:        #2563EB;
+  --primary-hover:  #1D4ED8;
+  --primary-light:  #EFF6FF;
+  --text:           #1E293B;
+  --text-muted:     #64748B;
+  --header-bg:      #1E3A5F;
+  --header-text:    #FFFFFF;
+  --tab-inactive:   #D1D9E6;
+  --tab-hover:      #E2E8F0;
+  --row-header:     #F1F5FB;
+  --col-header:     #F1F5FB;
+  --grid-line:      #E2E8F0;
+  --error-bg:       #FEF2F2;
+  --error-text:     #DC2626;
+  --radius:         8px;
+  --shadow:         0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:      0 4px 16px rgba(0,0,0,.12);
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ─── App Shell ──────────────────────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.app-header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 0 20px;
+  height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+  z-index: 10;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 22px;
+  height: 22px;
+  opacity: .9;
+}
+
+.app-header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+/* ─── Main Content ───────────────────────────────────────────────────────── */
+.app-main {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden { display: none !important; }
+
+/* ─── Upload Section ─────────────────────────────────────────────────────── */
+.upload-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.drop-zone {
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 60px 48px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .15s;
+  max-width: 500px;
+  width: 100%;
+  outline: none;
+  box-shadow: var(--shadow);
+}
+
+.drop-zone:hover,
+.drop-zone:focus {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.drop-zone.dragging {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.upload-icon {
+  width: 52px;
+  height: 52px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  transition: color .2s;
+}
+
+.drop-zone:hover .upload-icon,
+.drop-zone.dragging .upload-icon { color: var(--primary); }
+
+.drop-text {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.drop-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.browse-btn {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 9px 22px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s;
+  margin-bottom: 20px;
+}
+
+.browse-btn:hover { background: var(--primary-hover); }
+
+#file-input { display: none; }
+
+.supported-formats {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── Viewer Section ─────────────────────────────────────────────────────── */
+.viewer-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* Toolbar */
+.viewer-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--text-muted);
+  overflow: hidden;
+}
+
+.file-name {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}
+
+.file-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.clear-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 5px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+  flex-shrink: 0;
+}
+
+.clear-btn:hover {
+  border-color: var(--error-text);
+  color: var(--error-text);
+  background: var(--error-bg);
+}
+
+/* ─── Sheet Tabs ─────────────────────────────────────────────────────────── */
+.sheet-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 6px 12px 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: thin;
+}
+
+.sheet-tabs::-webkit-scrollbar { height: 4px; }
+.sheet-tabs::-webkit-scrollbar-track { background: transparent; }
+.sheet-tabs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sheet-tab {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--tab-inactive);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+  user-select: none;
+  position: relative;
+  top: 1px;
+}
+
+.sheet-tab:hover:not(.active) {
+  background: var(--tab-hover);
+  color: var(--text);
+}
+
+.sheet-tab.active {
+  background: var(--surface);
+  color: var(--primary);
+  font-weight: 600;
+  border-color: var(--border);
+  border-bottom-color: var(--surface);
+}
+
+/* ─── Table Container ────────────────────────────────────────────────────── */
+.table-container {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: var(--surface);
+}
+
+.table-container::-webkit-scrollbar { width: 8px; height: 8px; }
+.table-container::-webkit-scrollbar-track { background: var(--bg); }
+.table-container::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+.table-container::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+.table-wrapper {
+  display: inline-block;
+  min-width: 100%;
+}
+
+/* ─── Loading Indicator ──────────────────────────────────────────────────── */
+.loading-indicator {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255,255,255,.8);
+  z-index: 20;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Spreadsheet Table ──────────────────────────────────────────────────── */
+.sheet-table {
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+/* Column and row header cells */
+.sheet-table .corner-cell,
+.sheet-table .col-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--col-header);
+  border: 1px solid var(--grid-line);
+  padding: 3px 6px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.sheet-table .corner-cell {
+  left: 0;
+  z-index: 4;
+  min-width: 48px;
+  width: 48px;
+}
+
+.sheet-table .row-header {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--row-header);
+  border: 1px solid var(--grid-line);
+  padding: 2px 6px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 48px;
+  width: 48px;
+  user-select: none;
+}
+
+/* Data cells */
+.sheet-table td.data-cell {
+  border: 1px solid var(--grid-line);
+  padding: 2px 4px;
+  min-width: 80px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+  font-size: 13px;
+}
+
+/* Cell with explicit wrap-text style will be set inline */
+
+/* ─── Empty Sheet Message ────────────────────────────────────────────────── */
+.empty-sheet {
+  padding: 48px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ─── Error Toast ────────────────────────────────────────────────────────── */
+.error-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--error-text);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  max-width: 480px;
+  text-align: center;
+  animation: slide-up .25s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
