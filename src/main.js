@@ -74,11 +74,9 @@ async function loadFile(file) {
 
   try {
     if (isCSV) {
-      // CSV: read as text, convert to workbook
+      // CSV: read as text then parse — SheetJS auto-detects CSV from a string
       const text = await file.text();
-      const ws   = XLSX.utils.csv_to_sheet(text, { raw: false });
-      workbook   = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, ws, 'Sheet1');
+      workbook = XLSX.read(text, { type: 'string' });
     } else {
       const arrayBuffer = await file.arrayBuffer();
 
