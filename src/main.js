@@ -65,26 +65,36 @@ clearBtn.addEventListener('click', resetViewer);
 async function loadFile(file) {
   // Validate extension
   const name = file.name.toLowerCase();
-  if (!name.endsWith('.xls') && !name.endsWith('.xlsx')) {
-    showError('Unsupported file type. Please upload an XLS or XLSX file.');
+  const isCSV  = name.endsWith('.csv');
+  const isXLS  = name.endsWith('.xls') || name.endsWith('.xlsx');
+  if (!isCSV && !isXLS) {
+    showError('Unsupported file type. Please upload an XLS, XLSX, or CSV file.');
     return;
   }
 
   try {
-    const arrayBuffer = await file.arrayBuffer();
+    if (isCSV) {
+      // CSV: read as text, convert to workbook
+      const text = await file.text();
+      const ws   = XLSX.utils.csv_to_sheet(text, { raw: false });
+      workbook   = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, ws, 'Sheet1');
+    } else {
+      const arrayBuffer = await file.arrayBuffer();
 
-    // Read with SheetJS:
-    //   cellStyles: true  — parse cell formatting (fonts, fills, borders, alignment)
-    //   cellDates:  true  — parse date serial numbers into JS Date objects
-    //   cellNF:     true  — keep number format strings
-    //   raw:        false — return formatted text in the `w` property
-    workbook = XLSX.read(arrayBuffer, {
-      type:       'array',
-      cellStyles: true,
-      cellDates:  true,
-      cellNF:     true,
-      raw:        false,
-    });
+      // Read with SheetJS:
+      //   cellStyles: true  — parse cell formatting (fonts, fills, borders, alignment)
+      //   cellDates:  true  — parse date serial numbers into JS Date objects
+      //   cellNF:     true  — keep number format strings
+      //   raw:        false — return formatted text in the `w` property
+      workbook = XLSX.read(arrayBuffer, {
+        type:       'array',
+        cellStyles: true,
+        cellDates:  true,
+        cellNF:     true,
+        raw:        false,
+      });
+    }
 
     if (!workbook.SheetNames.length) {
       showError('This workbook contains no sheets.');
