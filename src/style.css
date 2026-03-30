@@ -445,10 +445,15 @@ html, body {
   font-size: 12px;
   cursor: pointer;
   user-select: none;
-  white-space: nowrap;
+  min-width: 0;
+  transition: background .1s;
+}
+
+.filter-option > *:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: background .1s;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .filter-option:hover { background: var(--primary-light); }
